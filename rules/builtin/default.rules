@@ -1,0 +1,15 @@
+# mini-ids builtin ruleset - Snort-lite syntax.
+# action proto src_ip src_port -> dst_ip dst_port (option:value; ...)
+# Educational, defensive/offensive security lab use only.
+
+alert tcp any any -> any 22 (msg:"Possible SSH brute-force"; flags:S; threshold: type threshold, track by_src, count 5, seconds 60; sid:1000001; severity:medium; classtype:attempted-recon;)
+alert tcp any any -> any 21 (msg:"Possible FTP brute-force"; flags:S; threshold: type threshold, track by_src, count 5, seconds 60; sid:1000002; severity:medium; classtype:attempted-recon;)
+alert tcp any any -> any 3389 (msg:"Possible RDP brute-force"; flags:S; threshold: type threshold, track by_src, count 5, seconds 60; sid:1000003; severity:medium; classtype:attempted-recon;)
+alert tcp any any -> any any (msg:"NULL scan detected"; flags:0; sid:1000010; severity:high; classtype:attempted-recon;)
+alert tcp any any -> any any (msg:"FIN scan detected"; flags:=F; sid:1000011; severity:high; classtype:attempted-recon;)
+alert tcp any any -> any any (msg:"XMAS scan detected"; flags:=FPU; sid:1000012; severity:high; classtype:attempted-recon;)
+alert tcp any any -> any 80 (msg:"Cleartext HTTP Basic Authorization header"; content:"Authorization: Basic"; nocase; sid:1000020; severity:high; classtype:policy-violation;)
+alert tcp any any -> any 21 (msg:"Cleartext FTP PASS command"; content:"PASS "; sid:1000021; severity:high; classtype:policy-violation;)
+alert tcp any any -> any 80 (msg:"Suspicious sqlmap User-Agent"; content:"User-Agent: sqlmap"; nocase; sid:1000030; severity:high; classtype:web-application-attack;)
+alert tcp any any -> any 80 (msg:"Suspicious nikto User-Agent"; content:"User-Agent: Nikto"; nocase; sid:1000031; severity:high; classtype:web-application-attack;)
+alert icmp any any -> any any (msg:"Oversized ICMP payload (possible tunneling)"; dsize:>800; sid:1000040; severity:medium; classtype:policy-violation;)

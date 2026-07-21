@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>mini-ids dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>mini-ids</h1>
+    <span class="subtitle">Lightweight intrusion detection - signature + behavioral + ML anomaly</span>
+  </header>
+
+  <section class="stat-tiles">
+    <div class="tile"><span class="tile-value" id="stat-total-alerts">0</span><span class="tile-label">Total alerts</span></div>
+    <div class="tile"><span class="tile-value" id="stat-total-flows">0</span><span class="tile-label">Tracked flows</span></div>
+    <div class="tile"><span class="tile-value" id="stat-high">0</span><span class="tile-label">High severity</span></div>
+    <div class="tile"><span class="tile-value" id="stat-kinds">0</span><span class="tile-label">Detector kinds firing</span></div>
+  </section>
+
+  <section class="grid">
+    <div class="panel">
+      <h2>Alerts by kind</h2>
+      <canvas id="chart-kinds"></canvas>
+    </div>
+    <div class="panel">
+      <h2>Loaded rules</h2>
+      <table id="rules-table">
+        <thead><tr><th>SID</th><th>Message</th><th>Proto</th><th>Severity</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Live alert feed</h2>
+    <table id="alerts-table">
+      <thead><tr><th>Time</th><th>Severity</th><th>Kind</th><th>Source</th><th>Destination</th><th>Detail</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
